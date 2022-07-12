@@ -10,7 +10,8 @@ app.config["DATABASE"] = "../database.db"
 def index():
     pokemon = [
         {"id": id, "pokemon_name": pokemon_name, "image_url": image_url}
-        for (id, pokemon_name, image_url, _) in helper.fetch_all_pokemons(get_db())
+        for (id, pokemon_name, image_url, _) 
+            in helper.fetch_all_pokemons(get_db())
     ]
     return render_template("index.html", pokemon=pokemon)
 
@@ -21,6 +22,21 @@ def subscribe():
     helper.register_subscriber(get_db(), email)
     # TODO: add confirmation message
     return redirect(url_for("index"))
+
+
+@app.route("/<pokemon_id>")
+def get_pokemon(pokemon_id: str):
+    try:
+        _, pokemon_name, image_url, description = helper.fetch_pokemon(get_db(), pokemon_id)
+        return render_template(
+            "pokemon.html",
+            description=description,
+            sprites=[image_url],
+            name=pokemon_name,
+            pokemon_id=pokemon_id,
+        )
+    except:
+        return redirect(url_for("index"))
 
 
 def get_db():
