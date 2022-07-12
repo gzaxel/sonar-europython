@@ -10,7 +10,8 @@ app.config["DATABASE"] = "../database.db"
 def index():
     pokemon = [
         {"id": id, "pokemon_name": pokemon_name, "image_url": image_url}
-        for (id, pokemon_name, image_url, _) in helper.fetch_all_pokemons(get_db())
+        for (id, pokemon_name, image_url, _) 
+            in helper.fetch_all_pokemons(get_db())
     ]
     return render_template("index.html", pokemon=pokemon)
 
